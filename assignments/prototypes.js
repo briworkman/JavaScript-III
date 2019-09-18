@@ -128,5 +128,68 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
+
+function Hero(attributes) {
+  Humanoid.call(this, attributes);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+function Villain(attributes) {
+  Humanoid.call(this, attributes);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+
+Hero.prototype.removeHealth = function() {
+  this.healthPoints -= 1;
+  console.log(`${this.healthPoints}`);
+};
+
+Villain.prototype.removeHealth = function() {
+  this.healthPoints -= 1;
+  console.log(`${this.healthPoints}`);
+};
+
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+const hero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 2,
+    height: 1
+  },
+  healthPoints: 5,
+  name: "Spider-Man",
+  team: "Marvel",
+  weapons: ["Webs"],
+  language: "English"
+});
+
+const villain = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 4,
+    width: 3,
+    height: 2
+  },
+  healthPoints: 5,
+  name: "Batman",
+  team: "DC",
+  weapons: ["Batarangs"],
+  language: "English"
+});
+
+Humanoid.prototype.battle = function(opponent) {
+  console.log(opponent.healthPoints);
+  let opHealth = opponent.healthPoints;
+  for (i = 0; i < opHealth; i++) {
+    opponent.removeHealth();
+  }
+  return opponent.healthPoints;
+};
+
+console.log(hero.battle(villain));
